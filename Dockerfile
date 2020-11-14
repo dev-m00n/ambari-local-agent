@@ -1,7 +1,7 @@
-FROM centos:centos7
+FROM devmoonduck/ambari-local-base:2.7.4.0
 
-ADD ambari-conf/ambari-agent.ini /etc/ambari-agent/conf/
+RUN yum install -y ambari-agent && yum clean all && rm -rf /var/cache/yum 
 
-RUN curl "http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0/ambari.repo" -o /etc/yum.repos.d/ambari.repo
-RUN yum install -y "java-1.8.0-openjdk" "maven" "gcc-c++" "rpm-build" "openssh-server" "openssh-clients" "ambari-agent" && yum clean all && ssh-keygen -A 
+COPY run-ambari-agent.sh /entry/usr/
+COPY ambari-conf/ambari-agent.ini /etc/ambari-agent/conf/
 
